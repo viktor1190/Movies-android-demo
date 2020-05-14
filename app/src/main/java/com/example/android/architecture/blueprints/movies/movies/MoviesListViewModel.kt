@@ -20,9 +20,6 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
 
     val moviesPagedList: LiveData<PagedList<Movie>>
 
-    private val _empty: MutableLiveData<Boolean> = MutableLiveData()
-    val emptyList: LiveData<Boolean> = _empty
-
     private val _liveDataSource: MutableLiveData<PageKeyedDataSource<Int, Movie>>
 
     /**
@@ -32,6 +29,8 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
     val dataLoading: LiveData<Boolean> = Transformations.map(_moviesResultStatusObserver) { it == Result.Loading }
     private val _errorsMessages: MutableLiveData<String> = MutableLiveData()
     val errorsMessages: LiveData<String> = _errorsMessages
+
+    val emptyList: LiveData<Boolean> = Transformations.map(_moviesResultStatusObserver) { !it.succeeded }
 
     private val _openMovieEvent = MutableLiveData<Event<Int>>()
     val openMovieEvent: LiveData<Event<Int>> = _openMovieEvent
@@ -48,18 +47,7 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
                 .setPageSize(PAGE_SIZE)
                 .setPrefetchDistance(3)
                 .build()
-        moviesPagedList = LivePagedListBuilder(dataSourceFactory, pagedListConfig)
-                .setBoundaryCallback(object : PagedList.BoundaryCallback<Movie>() {
-
-                    override fun onZeroItemsLoaded() {
-                        _empty.value = false
-                    }
-
-                    override fun onItemAtEndLoaded(itemAtEnd: Movie) {
-                        _empty.value = true
-                    }
-                })
-                .build()
+        moviesPagedList = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
         _searchSuggestions.addSource(_moviesResultStatusObserver) {
             if (it.succeeded) {
                 val movies = (it as Result.Success).data
