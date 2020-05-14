@@ -3,6 +3,7 @@ package com.example.android.architecture.blueprints.movies.di
 import com.example.android.architecture.blueprints.movies.data.source.DefaultMoviesRepository
 import com.example.android.architecture.blueprints.movies.data.source.MoviesRepository
 import com.example.android.architecture.blueprints.movies.data.source.remote.MoviesRemoteDataSource
+import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.ApikeyInterceptor
 import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.MovieResponseDataMapper
 import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.MoviesApi
 import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.ResultDataCallAdapterFactory
@@ -48,6 +49,7 @@ object ApplicationModule {
     @Provides
     fun provideRetrofitInstance(): Retrofit {
         val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(ApikeyInterceptor())
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
 
