@@ -13,7 +13,7 @@ interface MoviesApi {
      * Obtain the API Key needed for further requests
      * @param email The email to obtain a key
      */
-    @GET
+    @GET("/key")
     suspend fun getKey(@Query("email") email: String): Result<KeyResponse>
 
     /**

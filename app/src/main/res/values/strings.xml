@@ -5,4 +5,11 @@
     <string name="no_data_all">No movies to show!</string>
     <string name="search">Search by movie title</string>
     <string name="filter_label">Filter movies</string>
+
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

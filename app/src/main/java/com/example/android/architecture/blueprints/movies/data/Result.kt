@@ -26,3 +26,6 @@ sealed class Result<out R> {
  */
 val Result<*>.succeeded
     get() = this is Success && data != null
+
+val Result<*>.isLoading
+    get() = this is Result.Loading

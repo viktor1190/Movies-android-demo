@@ -54,6 +54,7 @@ abstract class CallDelegate<TIn, TOut>(protected val proxy: Call<TIn>) : Call<TO
 class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, Result<T>>(proxy) {
 
     override fun enqueueImpl(callback: Callback<Result<T>>) = proxy.enqueue(object: Callback<T> {
+
         override fun onResponse(call: Call<T>, response: Response<T>) {
             val body = response.body()
             val result = if (response.isSuccessful && body != null) {

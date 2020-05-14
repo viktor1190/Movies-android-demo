@@ -2,12 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/moviesListFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/moviesListFragment"
         android:name="com.example.android.architecture.blueprints.movies.movies.MoviesListFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_movies_list">
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.android.architecture.blueprints.movies.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_moviesListFragment"
+            app:destination="@id/moviesListFragment" />
     </fragment>
 </navigation>
