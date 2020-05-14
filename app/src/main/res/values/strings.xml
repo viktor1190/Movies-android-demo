@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movies demo app</string>
+    <string name="no_data">No data</string>
+    <string name="no_data_all">No movies to show!</string>
+    <string name="search">Search by movie title</string>
+    <string name="filter_label">Filter movies</string>
+</resources>

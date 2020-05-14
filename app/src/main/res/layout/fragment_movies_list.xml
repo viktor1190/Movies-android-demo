@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="viewmodel"
+            type="com.example.android.architecture.blueprints.movies.movies.MoviesListViewModel" />
+
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.example.android.architecture.blueprints.movies.ScrollChildSwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:onRefreshListener="@{viewmodel::refresh}"
+            app:refreshing="@{viewmodel.dataLoading}">
+
+            <RelativeLayout
+                android:id="@+id/tasksContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/tasksLLRandom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{viewmodel.emptyList ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        style="@style/listSection"
+                        android:id="@+id/FilterLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/filter_label" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/movies_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        app:items="@{viewmodel.moviesPagedList}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/noTasks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="@{viewmodel.emptyList ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:id="@+id/noTasksIcon"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_sentiment_dissatisfied_24dp" />
+
+                    <TextView
+                        android:id="@+id/noTasksMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/list_item_padding"
+                        android:text="@string/no_data_all" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </com.example.android.architecture.blueprints.movies.ScrollChildSwipeRefreshLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+
