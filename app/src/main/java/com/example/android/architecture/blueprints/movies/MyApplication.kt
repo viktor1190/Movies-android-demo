@@ -1,5 +1,6 @@
 package com.example.android.architecture.blueprints.movies
 
+import com.example.android.architecture.blueprints.movies.di.ApplicationComponent
 import com.example.android.architecture.blueprints.movies.di.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
@@ -13,9 +14,13 @@ import timber.log.Timber.DebugTree
  * Also, sets up Timber in the DEBUG BuildConfig. Read Timber's documentation for production setups.
  */
 open class MyApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
 
-        return DaggerApplicationComponent.factory().create(applicationContext)
+    val component: ApplicationComponent by lazy {
+        DaggerApplicationComponent.factory().create(applicationContext)
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return component
     }
 
     override fun onCreate() {

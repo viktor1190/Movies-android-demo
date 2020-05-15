@@ -47,12 +47,17 @@ object ApplicationModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideRetrofitInstance(): Retrofit {
-        val okHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
                 .addInterceptor(ApikeyInterceptor())
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
+    }
 
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .addCallAdapterFactory(ResultDataCallAdapterFactory())

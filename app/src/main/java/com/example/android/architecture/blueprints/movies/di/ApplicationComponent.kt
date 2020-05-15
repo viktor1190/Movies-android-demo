@@ -6,6 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 /**
@@ -21,6 +22,8 @@ import javax.inject.Singleton
         MoviesListModule::class
     ])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
+
+    val okHttpClient: OkHttpClient
 
     @Component.Factory
     interface Factory {

@@ -4,7 +4,6 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.android.architecture.blueprints.movies.data.Movie
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesListAdapter
 
@@ -21,7 +20,7 @@ fun setItems(listView: RecyclerView, items: PagedList<Movie>?) {
 @BindingAdapter("app:profileImage")
 fun loadImage(view: ImageView, imageName: String?) {
     if (imageName != null) {
-        Glide.with(view.context)
+        GlideApp.with(view.context)
                 .load(MovieImageBuilder.getImageUrl(imageName, MovieImageSize.Medium))
                 .into(view)
     }
