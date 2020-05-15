@@ -1,4 +1,4 @@
-package com.example.android.architecture.blueprints.movies.movies
+package com.example.android.architecture.blueprints.movies.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android.architecture.blueprints.movies.data.Movie
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesListAdapter
-import retrofit2.Retrofit
 
 /**
  * [BindingAdapter]s for the [Movie]s list.

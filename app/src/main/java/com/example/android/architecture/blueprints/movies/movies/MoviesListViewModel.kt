@@ -14,6 +14,8 @@ import com.example.android.architecture.blueprints.movies.data.Movie
 import com.example.android.architecture.blueprints.movies.data.Result
 import com.example.android.architecture.blueprints.movies.data.source.MoviesRepository
 import com.example.android.architecture.blueprints.movies.data.succeeded
+import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesRemoteDataSourceFactory
+import com.example.android.architecture.blueprints.movies.movies.adapters.PAGE_SIZE
 import javax.inject.Inject
 
 class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesRepository) : ViewModel() {

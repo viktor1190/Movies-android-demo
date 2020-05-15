@@ -1,4 +1,4 @@
-package com.example.android.architecture.blueprints.movies.movies
+package com.example.android.architecture.blueprints.movies.movies.adapters
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
