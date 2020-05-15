@@ -35,6 +35,6 @@ interface MoviesApi {
      * Obtain further details for a movie with the id
      * @param id The movie id
      */
-    @GET("/movie/{id}")
+    @GET("/movies/{id}")
     suspend fun getMovie(@Path("id") id: Int): Result<MovieResponse>
 }

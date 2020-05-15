@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.android.architecture.blueprints.movies.EventObserver
 import com.example.android.architecture.blueprints.movies.R
 import com.example.android.architecture.blueprints.movies.databinding.FragmentMoviesListBinding
@@ -45,8 +46,8 @@ class MoviesListFragment : DaggerFragment() {
     private val suggestionsMap = mutableMapOf<Int, String>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         viewDataBinding = FragmentMoviesListBinding.inflate(inflater, container, false).apply {
             viewmodel = viewModel
@@ -78,7 +79,7 @@ class MoviesListFragment : DaggerFragment() {
         val to = intArrayOf(R.id.text_suggestion_label)
         val cursorAdapter = SimpleCursorAdapter(context, R.layout.hint_row, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER)
         searchView.suggestionsAdapter = cursorAdapter
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 hideKeyboard(searchView)
                 return false
@@ -99,7 +100,7 @@ class MoviesListFragment : DaggerFragment() {
                 return false
             }
         })
-        searchView.setOnSuggestionListener(object: SearchView.OnSuggestionListener {
+        searchView.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
             override fun onSuggestionSelect(position: Int): Boolean {
                 return false
             }
@@ -127,8 +128,8 @@ class MoviesListFragment : DaggerFragment() {
 
     private fun openMovieDetails(movieId: Int) {
         lifecycleScope.launch {
-            // val action = MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(movieId)
-            // findNavController().navigate(action)
+            val action = MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(movieId)
+            findNavController().navigate(action)
             Toast.makeText(requireContext(), "You have selected movie with ID: $movieId", Toast.LENGTH_SHORT).show()
         }
     }
