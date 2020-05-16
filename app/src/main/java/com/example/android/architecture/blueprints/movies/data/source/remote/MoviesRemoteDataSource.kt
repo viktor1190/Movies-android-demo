@@ -38,7 +38,7 @@ class MoviesRemoteDataSource @Inject constructor(
 
     private fun mapMoviesListResult(result: Result<List<MovieResponse>>): Result<List<Movie>> {
         return if (result.succeeded) {
-            val responseData = (result as Result.Success).data
+            val responseData = (result as Result.Success).data.filter { !it.adult }
             Result.Success(responseData.map{ mapper.mapToModel(it) })
         } else {
             result as Result.Error
