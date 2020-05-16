@@ -20,7 +20,7 @@ import com.example.android.architecture.blueprints.movies.movies.adapters.Movies
 import com.example.android.architecture.blueprints.movies.movies.adapters.PAGE_SIZE
 import javax.inject.Inject
 
-class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesRepository) : ViewModel() {
+class MoviesListViewModel @Inject constructor(moviesRepository: MoviesRepository) : ViewModel() {
 
     val moviesPagedList: LiveData<PagedList<Movie>>
 
@@ -84,15 +84,7 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
                 _errorsMessages.value = it.message ?: it.exception.message
             }
         }
-        _emptyList.value = true
-        // Empty list will emmit only the first time the list is loaded successfully,
-        // after that there is not needed to keep listening for updates
-        _emptyList.addSource(_moviesResultStatusObserver) {
-            if (it.succeeded) {
-                _emptyList.value = false
-                _emptyList.removeSource(_moviesResultStatusObserver)
-            }
-        }
+        activateEmptyListPlaceholder()
     }
 
     /**
@@ -100,10 +92,6 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
      */
     fun openMovie(movieId: Int) {
         _openMovieEvent.value = Event(movieId)
-    }
-
-    fun refresh() {
-        _liveDataSource.value?.invalidate()
     }
 
     fun setSortType(sortType: MoviesListSortType) {
@@ -114,5 +102,25 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
     fun filterByName(filterValue: String?) {
         this.filterValue.value = filterValue
         refresh()
+    }
+
+    fun refresh() {
+        _liveDataSource.value?.invalidate()
+        activateEmptyListPlaceholder()
+    }
+
+    /**
+     * Reports an empty list until new items become shown successfully
+     */
+    private fun activateEmptyListPlaceholder() {
+        if (emptyList.value != true) {
+            _emptyList.value = true
+            _emptyList.addSource(_moviesResultStatusObserver) {
+                if (it is Result.Success && it.succeeded && it.data.isNotEmpty()) {
+                    _emptyList.value = false
+                    _emptyList.removeSource(_moviesResultStatusObserver)
+                }
+            }
+        }
     }
 }

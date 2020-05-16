@@ -48,6 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:visibility="@{viewmodel.emptyList ? View.GONE : View.VISIBLE}"
                         android:text="@{@string/sorted_by_label(context.getString(viewmodel.sortTypeLabel))}" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -59,7 +60,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/noTasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -67,14 +67,12 @@
                     android:visibility="@{viewmodel.emptyList ? View.VISIBLE : View.GONE}">
 
                     <ImageView
-                        android:id="@+id/noTasksIcon"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_sentiment_dissatisfied_24dp" />
 
                     <TextView
-                        android:id="@+id/noTasksMain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
