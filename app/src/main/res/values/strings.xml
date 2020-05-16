@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Movies demo app</string>
-    <string name="no_data">No data</string>
-    <string name="no_data_all">No movies to show!</string>
-    <string name="search">Search by movie title</string>
-    <string name="filter_label">Filter movies</string>
 
+    <!-- Login -->
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_email">Not a valid email</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!-- Movies list-->
     <string name="error_loading_content">An error occurs while loading movies: %s</string>
+    <string name="no_data">No data</string>
+    <string name="no_data_all">No movies to show!</string>
+    <string name="search">Search by movie title</string>
+    <string name="sorted_by_label">Movies sorted by %s</string>
+    <string name="menu_sortBy_title">Sort By</string>
+    <string name="menu_sortBy_titleAsc_label">Title Asc</string>
+    <string name="menu_sortBy_titleDesc_label">Title Desc</string>
+    <string name="menu_sortBy_dateAsc_label">Date Asc</string>
+    <string name="menu_sortBy_dateDesc_label">Date Desc</string>
+    <string name="menu_sortBy_popularityAsc_label">Popularity Asc</string>
+    <string name="menu_sortBy_popularityDesc_label">Popularity Desc</string>
+
 </resources>

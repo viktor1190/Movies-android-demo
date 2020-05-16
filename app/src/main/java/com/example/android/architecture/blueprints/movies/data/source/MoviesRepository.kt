@@ -8,7 +8,7 @@ import com.example.android.architecture.blueprints.movies.data.Result
  */
 interface MoviesRepository {
 
-    suspend fun getMovies(page: Int, sort: MoviesListSortType? = MoviesListSortType.TITLE_ASC, query: String? = null): Result<List<Movie>>
+    suspend fun getMovies(page: Int, sort: MoviesListSortType?, query: String? = null): Result<List<Movie>>
 
     suspend fun getMovie(movieId: Int): Result<Movie>
 

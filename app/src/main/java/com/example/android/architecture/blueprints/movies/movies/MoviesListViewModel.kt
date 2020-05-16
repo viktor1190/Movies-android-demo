@@ -10,8 +10,10 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import com.example.android.architecture.blueprints.movies.Event
+import com.example.android.architecture.blueprints.movies.R
 import com.example.android.architecture.blueprints.movies.data.Movie
 import com.example.android.architecture.blueprints.movies.data.Result
+import com.example.android.architecture.blueprints.movies.data.source.MoviesListSortType
 import com.example.android.architecture.blueprints.movies.data.source.MoviesRepository
 import com.example.android.architecture.blueprints.movies.data.succeeded
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesRemoteDataSourceFactory
@@ -24,6 +26,20 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
 
     private val _liveDataSource: MutableLiveData<PageKeyedDataSource<Int, Movie>>
 
+    // Setting the default sort order by TITLE_ASC
+    private val _sortType: MutableLiveData<MoviesListSortType> = MutableLiveData(MoviesListSortType.TITLE_ASC)
+    val sortTypeLabel: LiveData<Int?> = Transformations.map(_sortType) {
+        return@map when (it) {
+            MoviesListSortType.TITLE_ASC -> R.string.menu_sortBy_titleAsc_label
+            MoviesListSortType.TITLE_DESC -> R.string.menu_sortBy_titleDesc_label
+            MoviesListSortType.DATE_ASC -> R.string.menu_sortBy_dateAsc_label
+            MoviesListSortType.DATE_DESC -> R.string.menu_sortBy_dateDesc_label
+            MoviesListSortType.POPULARITY_ASC -> R.string.menu_sortBy_popularityAsc_label
+            MoviesListSortType.POPULARITY_DESC -> R.string.menu_sortBy_popularityDesc_label
+            else -> null
+        }
+    }
+
     /**
      * This private LiveData object is used to observe the request status and emmit the errors and the loading indicators.
      */
@@ -34,7 +50,6 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
 
     private val _emptyList: MediatorLiveData<Boolean> = MediatorLiveData()
     val emptyList: LiveData<Boolean> = _emptyList
-    //Transformations.map(_moviesResultStatusObserver) { !it.succeeded && it !is Result.Loading }
 
     private val _openMovieEvent = MutableLiveData<Event<Int>>()
     val openMovieEvent: LiveData<Event<Int>> = _openMovieEvent
@@ -43,7 +58,7 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
     val searchSuggestions: LiveData<Map<Int, String>> = _searchSuggestions
 
     init {
-        val dataSourceFactory = MoviesRemoteDataSourceFactory(moviesRepository, viewModelScope, _moviesResultStatusObserver)
+        val dataSourceFactory = MoviesRemoteDataSourceFactory(moviesRepository, viewModelScope, _moviesResultStatusObserver, _sortType)
         _liveDataSource = dataSourceFactory.getMovieLiveDataSource()
         val pagedListConfig = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -81,5 +96,10 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
 
     fun refresh() {
         _liveDataSource.value?.invalidate()
+    }
+
+    fun setSortType(sortType: MoviesListSortType) {
+        _sortType.value = sortType
+        refresh()
     }
 }

@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="@string/filter_label" />
+                        android:text="@{@string/sorted_by_label(context.getString(viewmodel.sortTypeLabel))}" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/movies_list"

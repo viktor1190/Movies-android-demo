@@ -9,6 +9,7 @@ import android.provider.BaseColumns
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -23,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.android.architecture.blueprints.movies.EventObserver
 import com.example.android.architecture.blueprints.movies.R
+import com.example.android.architecture.blueprints.movies.data.source.MoviesListSortType
 import com.example.android.architecture.blueprints.movies.databinding.FragmentMoviesListBinding
 import com.example.android.architecture.blueprints.movies.movies.adapters.GridAutoFitLayoutManager
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesListAdapter
@@ -70,7 +72,7 @@ class MoviesListFragment : DaggerFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.movies_menu, menu)
 
         val searchView: SearchView = menu.findItem(R.id.menu_search).actionView as SearchView
         searchView.queryHint = this.getString(R.string.search)
@@ -118,6 +120,24 @@ class MoviesListFragment : DaggerFragment() {
                 return true
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val sortType = when (item.itemId) {
+            R.id.menu_sortBy_titleAsc -> MoviesListSortType.TITLE_ASC
+            R.id.menu_sortBy_titleDesc -> MoviesListSortType.TITLE_DESC
+            R.id.menu_sortBy_dateAsc -> MoviesListSortType.DATE_ASC
+            R.id.menu_sortBy_dateDesc -> MoviesListSortType.DATE_DESC
+            R.id.menu_sortBy_popularityAsc -> MoviesListSortType.POPULARITY_ASC
+            R.id.menu_sortBy_popularityDesc -> MoviesListSortType.POPULARITY_DESC
+            else -> null
+        }
+        return if (sortType != null) {
+            viewModel.setSortType(sortType)
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setupNavigation() {
