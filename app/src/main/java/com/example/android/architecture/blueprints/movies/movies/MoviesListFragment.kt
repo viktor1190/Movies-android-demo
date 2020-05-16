@@ -73,53 +73,27 @@ class MoviesListFragment : DaggerFragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.movies_menu, menu)
-
         val searchView: SearchView = menu.findItem(R.id.menu_search).actionView as SearchView
+        setupSearchViewMenu(searchView)
+    }
+
+    private fun setupSearchViewMenu(searchView: SearchView) {
         searchView.queryHint = this.getString(R.string.search)
 
         val from = arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1)
         val to = intArrayOf(R.id.text_suggestion_label)
         val cursorAdapter = SimpleCursorAdapter(context, R.layout.hint_row, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER)
         searchView.suggestionsAdapter = cursorAdapter
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                hideKeyboard(searchView)
-                return false
-            }
+        searchView.setOnQueryTextListener(onSearchQueryListener(searchView, cursorAdapter))
+        searchView.setOnSuggestionListener(onSearchSuggestionListener(searchView))
+        searchView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
 
-            override fun onQueryTextChange(query: String?): Boolean {
-                val cursor = MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
-                query?.let {
-                    var index = suggestionsMap.size - 1
-                    suggestionsMap.forEach { movieId, movieTitle ->
-                        if (movieTitle.contains(query, true)) {
-                            cursor.addRow(arrayOf(index, movieTitle))
-                            index++
-                        }
-                    }
-                }
-                cursorAdapter.changeCursor(cursor)
-                return false
+            override fun onViewDetachedFromWindow(v: View?) {
+                viewModel.filterByName(null)
             }
+            override fun onViewAttachedToWindow(v: View?) {}
         })
-        searchView.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
-            override fun onSuggestionSelect(position: Int): Boolean {
-                return false
-            }
 
-            override fun onSuggestionClick(position: Int): Boolean {
-                hideKeyboard(searchView)
-                val cursor = searchView.suggestionsAdapter.getItem(position) as Cursor
-                val selection = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1))
-
-                // Clear the searchView for future searches
-                searchView.setQuery(null, false)
-
-                val keys = suggestionsMap.filterValues { it == selection }.keys
-                openMovieDetails(keys.first())
-                return true
-            }
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -182,5 +156,51 @@ class MoviesListFragment : DaggerFragment() {
         viewModel.errorsMessages.observe(viewLifecycleOwner, Observer {
             Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_LONG).show()
         })
+    }
+
+    private fun onSearchSuggestionListener(searchView: SearchView): SearchView.OnSuggestionListener {
+        return object : SearchView.OnSuggestionListener {
+            override fun onSuggestionSelect(position: Int): Boolean {
+                return false
+            }
+
+            override fun onSuggestionClick(position: Int): Boolean {
+                hideKeyboard(searchView)
+                val cursor = searchView.suggestionsAdapter.getItem(position) as Cursor
+                val selection = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1))
+
+                // Clear the searchView for future searches
+                searchView.setQuery(null, false)
+
+                val keys = suggestionsMap.filterValues { it == selection }.keys
+                openMovieDetails(keys.first())
+                return true
+            }
+        }
+    }
+
+    private fun onSearchQueryListener(searchView: SearchView, cursorAdapter: SimpleCursorAdapter): SearchView.OnQueryTextListener {
+        return object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                hideKeyboard(searchView)
+                viewModel.filterByName(query)
+                return true
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                val cursor = MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
+                query?.let {
+                    var index = suggestionsMap.size - 1
+                    suggestionsMap.forEach { movieId, movieTitle ->
+                        if (movieTitle.contains(query, true)) {
+                            cursor.addRow(arrayOf(index, movieTitle))
+                            index++
+                        }
+                    }
+                }
+                cursorAdapter.changeCursor(cursor)
+                return false
+            }
+        }
     }
 }

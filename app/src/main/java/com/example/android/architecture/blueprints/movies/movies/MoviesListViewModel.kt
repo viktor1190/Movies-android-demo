@@ -40,6 +40,9 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
         }
     }
 
+    // Initially we don't want to filter any movie, so we send null as default value
+    private val filterValue: MutableLiveData<String?> = MutableLiveData(null)
+
     /**
      * This private LiveData object is used to observe the request status and emmit the errors and the loading indicators.
      */
@@ -58,7 +61,12 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
     val searchSuggestions: LiveData<Map<Int, String>> = _searchSuggestions
 
     init {
-        val dataSourceFactory = MoviesRemoteDataSourceFactory(moviesRepository, viewModelScope, _moviesResultStatusObserver, _sortType)
+        val dataSourceFactory = MoviesRemoteDataSourceFactory(
+                moviesRepository,
+                viewModelScope,
+                _moviesResultStatusObserver,
+                _sortType,
+                filterValue)
         _liveDataSource = dataSourceFactory.getMovieLiveDataSource()
         val pagedListConfig = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -100,6 +108,11 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
 
     fun setSortType(sortType: MoviesListSortType) {
         _sortType.value = sortType
+        refresh()
+    }
+
+    fun filterByName(filterValue: String?) {
+        this.filterValue.value = filterValue
         refresh()
     }
 }

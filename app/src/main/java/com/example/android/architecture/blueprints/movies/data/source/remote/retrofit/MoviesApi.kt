@@ -31,7 +31,7 @@ interface MoviesApi {
     suspend fun getMovies(
             @Query("page") page: Int,
             @Query("sort") sort: String?,
-            @Query("query") query: String?
+            @Query("q") query: String?
     ): Result<List<MovieResponse>>
 
     /**

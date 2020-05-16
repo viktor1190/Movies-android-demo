@@ -23,17 +23,18 @@ class PagedMoviesDataSource constructor(
         private val coroutineScope: CoroutineScope,
         private val requestStatusObserver: MutableLiveData<Result<List<Movie>>>,
         private val sortType: LiveData<MoviesListSortType>,
+        private val filterValue: LiveData<String?>,
         private val ioDispatcher: CoroutineDispatcher
 ): PageKeyedDataSource<Int, Movie>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
-        managedMoviesRequest(FIRST_PAGE, sortType.value) {
+        managedMoviesRequest(FIRST_PAGE) {
             callback.onResult(it, null, FIRST_PAGE + 1)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        managedMoviesRequest(params.key, sortType.value) {
+        managedMoviesRequest(params.key) {
             // incrementing the next page number
             val key = params.key + 1
             callback.onResult(it, key)
@@ -41,17 +42,17 @@ class PagedMoviesDataSource constructor(
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        managedMoviesRequest(params.key, sortType.value) {
+        managedMoviesRequest(params.key) {
             //if the current page is greater than one we are decrementing the page number else there is no previous page
             val key = if (params.key > 1) params.key - 1 else null
             callback.onResult(it, key)
         }
     }
 
-    private fun managedMoviesRequest(page: Int, sortType: MoviesListSortType?, callback: (List<Movie>) -> Unit) {
+    private fun managedMoviesRequest(page: Int, callback: (List<Movie>) -> Unit) {
         coroutineScope.launch {
             requestStatusObserver.value = Result.Loading
-            val moviesResult = withContext(ioDispatcher) { moviesRepository.getMovies(page, sortType) }
+            val moviesResult = withContext(ioDispatcher) { moviesRepository.getMovies(page, sortType.value, filterValue.value) }
             if (moviesResult.succeeded) {
                 val movies = (moviesResult as Result.Success).data
                 requestStatusObserver.value = Result.Success(movies)
@@ -68,13 +69,14 @@ class MoviesRemoteDataSourceFactory(
         private val coroutineScope: CoroutineScope,
         private val requestStatusObserver: MutableLiveData<Result<List<Movie>>>,
         private val sortType: LiveData<MoviesListSortType>,
+        private val filterValue: LiveData<String?>,
         private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): DataSource.Factory<Int, Movie>() {
 
     private val moviesLiveDataSource: MutableLiveData<PageKeyedDataSource<Int, Movie>> = MutableLiveData()
 
     override fun create(): DataSource<Int, Movie> {
-        val dataSource = PagedMoviesDataSource(moviesRepository, coroutineScope, requestStatusObserver, sortType, ioDispatcher)
+        val dataSource = PagedMoviesDataSource(moviesRepository, coroutineScope, requestStatusObserver, sortType, filterValue, ioDispatcher)
 
         moviesLiveDataSource.postValue(dataSource)
 
