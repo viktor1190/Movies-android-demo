@@ -32,7 +32,9 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
     private val _errorsMessages: MutableLiveData<String> = MutableLiveData()
     val errorsMessages: LiveData<String> = _errorsMessages
 
-    val emptyList: LiveData<Boolean> = Transformations.map(_moviesResultStatusObserver) { !it.succeeded }
+    private val _emptyList: MediatorLiveData<Boolean> = MediatorLiveData()
+    val emptyList: LiveData<Boolean> = _emptyList
+    //Transformations.map(_moviesResultStatusObserver) { !it.succeeded && it !is Result.Loading }
 
     private val _openMovieEvent = MutableLiveData<Event<Int>>()
     val openMovieEvent: LiveData<Event<Int>> = _openMovieEvent
@@ -57,6 +59,15 @@ class MoviesListViewModel @Inject constructor(val moviesRepository: MoviesReposi
                 _searchSuggestions.value = mapOfMoviesTitles
             } else if (it is Result.Error) {
                 _errorsMessages.value = it.message ?: it.exception.message
+            }
+        }
+        _emptyList.value = true
+        // Empty list will emmit only the first time the list is loaded successfully,
+        // after that there is not needed to keep listening for updates
+        _emptyList.addSource(_moviesResultStatusObserver) {
+            if (it.succeeded) {
+                _emptyList.value = false
+                _emptyList.removeSource(_moviesResultStatusObserver)
             }
         }
     }

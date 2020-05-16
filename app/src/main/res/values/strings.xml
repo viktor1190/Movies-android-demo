@@ -12,4 +12,5 @@
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_email">Not a valid email</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="error_loading_content">An error occurs while loading movies: %s</string>
 </resources>

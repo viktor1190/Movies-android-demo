@@ -160,7 +160,7 @@ class MoviesListFragment : DaggerFragment() {
 
     private fun setupErrorsHandler() {
         viewModel.errorsMessages.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(requireView(), it, Snackbar.LENGTH_LONG);
+            Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_LONG).show()
         })
     }
 }

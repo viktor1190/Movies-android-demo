@@ -19,6 +19,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.annotation.AnnotationRetention.RUNTIME
 
+const val API_BASE_URL = "https://dev-candidates.wifiesta.com/"
 
 @Module(includes = [ApplicationModuleBinds::class])
 object ApplicationModule {
@@ -62,7 +63,7 @@ object ApplicationModule {
                 .client(okHttpClient)
                 .addCallAdapterFactory(ResultDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://dev-candidates.wifiesta.com/")
+                .baseUrl(API_BASE_URL)
                 .build()
     }
 

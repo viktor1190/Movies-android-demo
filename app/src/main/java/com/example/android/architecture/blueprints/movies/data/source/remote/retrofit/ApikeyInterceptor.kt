@@ -10,7 +10,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 private const val API_KEY_HEADER_NAME = "api-key"
-const val API_KEY_REQUEST_PATH_SEGMENT = "key"
 
 class ApikeyInterceptor @Inject constructor() : Interceptor {
 

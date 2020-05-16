@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="androidx.core.content.ContextCompat" />
+        <import type="com.example.android.architecture.blueprints.movies.util.MovieImageSize" />
         <variable
             name="viewmodel"
             type="com.example.android.architecture.blueprints.movies.movieDetail.MovieDetailViewModel" />
@@ -16,14 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/image_item_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:profileImage="@{viewmodel.movieDetail.image}"
+            app:profileSize="@{MovieImageSize.Medium}"
+            tools:src="@tools:sample/avatars" />
+
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewmodel.movieDetail.title}"
-            tools:text="@tools:sample/full_names"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/image_item_thumbnail"
+            tools:text="@tools:sample/full_names" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

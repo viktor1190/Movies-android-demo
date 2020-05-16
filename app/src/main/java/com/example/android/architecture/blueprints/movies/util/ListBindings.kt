@@ -5,7 +5,10 @@ import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.architecture.blueprints.movies.data.Movie
+import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.IMAGES_PATH_SEGMENT
+import com.example.android.architecture.blueprints.movies.di.API_BASE_URL
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesListAdapter
+import okhttp3.HttpUrl
 
 /**
  * [BindingAdapter]s for the [Movie]s list.
@@ -17,13 +20,12 @@ fun setItems(listView: RecyclerView, items: PagedList<Movie>?) {
     }
 }
 
-@BindingAdapter("app:profileImage")
-fun loadImage(view: ImageView, imageName: String?) {
-    if (imageName != null) {
-        GlideApp.with(view.context)
-                .load(MovieImageBuilder.getImageUrl(imageName, MovieImageSize.Medium))
-                .into(view)
-    }
+@BindingAdapter(*["app:profileImage", "app:profileSize"])
+fun loadImage(view: ImageView, profileImage: String?, profileSize: MovieImageSize) {
+    GlideApp.with(view.context)
+            .load(MovieImageBuilder.getImageUrl(profileImage, profileSize))
+            .into(view)
+
 }
 
 enum class MovieImageSize(val value: String) {
@@ -38,8 +40,14 @@ enum class MovieImageSize(val value: String) {
 
 object MovieImageBuilder {
 
-    fun getImageUrl(imageName: String?, size: MovieImageSize = MovieImageSize.Original): String {
-        // TODO improve this logic to use an URL builder together with Retrofit instance to get the base URL
-        return "https://dev-candidates.wifiesta.com/images$imageName?size=${size.value}"
+    fun getImageUrl(imageName: String?, size: MovieImageSize = MovieImageSize.Original): String? {
+        if (imageName == null) {
+            return null
+        }
+        return HttpUrl.get(API_BASE_URL).newBuilder()
+                .addPathSegment(IMAGES_PATH_SEGMENT)
+                .addPathSegment(imageName)
+                .addQueryParameter("size", size.value)
+                .build().toString()
     }
 }

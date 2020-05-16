@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.widget.CompoundButton" />
+        <import type="com.example.android.architecture.blueprints.movies.util.MovieImageSize" />
 
         <variable
             name="movie"
@@ -27,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:profileImage="@{movie.image}"
+            app:profileSize="@{MovieImageSize.ExtraSmall}"
             tools:src="@tools:sample/avatars"/>
 
         <TextView

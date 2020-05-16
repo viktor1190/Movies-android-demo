@@ -7,6 +7,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+const val API_KEY_REQUEST_PATH_SEGMENT = "key"
+const val IMAGES_PATH_SEGMENT = "images"
+
 interface MoviesApi {
 
     /**

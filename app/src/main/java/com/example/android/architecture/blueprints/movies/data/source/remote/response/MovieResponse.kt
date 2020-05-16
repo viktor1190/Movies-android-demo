@@ -11,7 +11,7 @@ data class MovieResponse(
         val release_date: String?,
         val status: String?,
         val reviews: List<String>?,
-        val cast: CastResponse?
+        val cast: List<CastResponse>?
 )
 
 data class CastResponse (
