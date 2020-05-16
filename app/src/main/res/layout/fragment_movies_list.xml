@@ -28,7 +28,7 @@
             app:onRefreshListener="@{viewmodel::refresh}"
             app:refreshing="@{viewmodel.dataLoading}">
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/tasksContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -36,33 +36,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/tasksLLRandom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{viewmodel.emptyList ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        style="@style/listSection"
-                        android:id="@+id/FilterLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:visibility="@{viewmodel.emptyList ? View.GONE : View.VISIBLE}"
-                        android:text="@{@string/sorted_by_label(context.getString(viewmodel.sortTypeLabel))}" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/movies_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        app:items="@{viewmodel.moviesPagedList}" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:visibility="@{viewmodel.emptyList ? View.VISIBLE : View.GONE}">
 
@@ -76,10 +52,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_marginBottom="@dimen/list_item_padding"
                         android:text="@string/no_data_all" />
                 </LinearLayout>
-            </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movies_list"
+                    android:paddingTop="@dimen/list_section_header_height"
+                    android:clipToPadding="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:items="@{viewmodel.moviesPagedList}" />
+
+                <TextView
+                    android:id="@+id/FilterLabel"
+                    style="@style/listSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_section_header_height"
+                    android:gravity="center_vertical|top"
+                    android:text="@{@string/sorted_by_label(context.getString(viewmodel.sortTypeLabel))}"
+                    android:visibility="@{viewmodel.emptyList ? View.GONE : View.VISIBLE}" />
+            </FrameLayout>
 
         </com.example.android.architecture.blueprints.movies.ScrollChildSwipeRefreshLayout>
 

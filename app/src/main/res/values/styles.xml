@@ -32,9 +32,10 @@
 
     <!--List Sheets-->
     <style name="listSection" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:layout_margin">@dimen/list_item_padding</item>
+        <item name="android:padding">@dimen/list_item_padding</item>
         <item name="textAllCaps">true</item>
         <item name="android:textColor">@color/black_800</item>
+        <item name="android:background">@color/withe_translucid</item>
     </style>
 
     <!--Detail Sheets-->

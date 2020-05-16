@@ -133,7 +133,7 @@ class MoviesListFragment : DaggerFragment() {
         if (viewModel != null) {
             listAdapter = MoviesListAdapter(viewModel)
             val moviesList = viewDataBinding.moviesList
-            val gridLayoutManager = GridAutoFitLayoutManager(requireActivity(), 200)
+            val gridLayoutManager = GridAutoFitLayoutManager(requireActivity(), 148)
             moviesList.adapter = listAdapter
             moviesList.layoutManager = gridLayoutManager
         } else {

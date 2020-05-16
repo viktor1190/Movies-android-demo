@@ -21,6 +21,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="list_section_header_height">32dp</dimen>
     <dimen name="list_item_title_horizontal_padding">8dp</dimen>
     <dimen name="list_item_title_vertical_padding">12dp</dimen>
 
