@@ -39,4 +39,30 @@
     </style>
 
     <!--Detail Sheets-->
+    <style name="MaterialMoviesDetailFieldBase" parent="android:TextAppearance.Material">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
+    </style>
+    <style name="MaterialMoviesHeaderTextView" parent="MaterialMoviesDetailFieldBase">
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+    </style>
+    <style name="MaterialMoviesReviewTextView" parent="MaterialMoviesDetailFieldBase">
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:paddingStart">@dimen/movie_description_container_padding</item>
+        <item name="android:paddingEnd">@dimen/movie_description_container_padding</item>
+        <item name="android:paddingBottom">@dimen/movie_description_container_padding</item>
+        <item name="android:background">@color/grayLight</item>
+    </style>
+    <style name="MaterialMoviesTitle" parent="android:TextAppearance.Material.Display1">
+        <item name="android:background">@color/black_translucid</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+    </style>
 </resources>

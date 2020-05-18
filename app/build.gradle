@@ -177,5 +177,5 @@ dependencies {
 
     // Paging
     implementation "androidx.paging:paging-runtime:$pagingVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
 }

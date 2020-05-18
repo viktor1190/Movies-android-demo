@@ -24,4 +24,14 @@
     <string name="menu_sortBy_popularityAsc_label">Popularity Asc</string>
     <string name="menu_sortBy_popularityDesc_label">Popularity Desc</string>
 
+    <!-- Movie detail -->
+    <string name="movie_adult_content_label">Is adult content: %s</string>
+    <string name="null_field">[empty]</string>
+    <string name="overview">Overview</string>
+    <string name="release_date">Release Date</string>
+    <string name="tagline">Tagline</string>
+    <string name="cast">Cast</string>
+    <string name="reviews">Reviews</string>
+    <string name="status">Status</string>
+
 </resources>

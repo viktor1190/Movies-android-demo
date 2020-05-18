@@ -9,12 +9,20 @@ data class Movie(
         val tagLine: String? = null,
         val releaseDate: String? = null,
         val status: String? = null,
-        val reviews: List<String>? = null,
-        val cast: Casting? = null
+        val reviews: List<Review>? = null,
+        val cast: List<Casting>? = null
+)
+
+data class Review (
+        val author: String,
+        val value: String
 )
 
 data class Casting (
-        val actor: String,
-        val character: String,
+        val actor: String?,
+        val character: String?,
         val image: String?
-)
+) {
+    val description: String
+        get() = actor + if (character.isNullOrEmpty()) "" else "\nas $character"
+}

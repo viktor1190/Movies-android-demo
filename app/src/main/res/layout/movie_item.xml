@@ -24,10 +24,11 @@
         android:onClick="@{() -> viewmodel.openMovie(movie.id)}">
         
         <ImageView
-            android:id="@+id/image_item_thumbnail"
+            android:id="@+id/movie_detail_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
+            android:layout_gravity="top|center_horizontal"
             app:profileImage="@{movie.image}"
             app:profileSize="@{MovieImageSize.ExtraSmall}"
             tools:src="@tools:sample/avatars"/>
@@ -38,7 +39,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|center_horizontal"
             android:paddingTop="@dimen/list_item_title_vertical_padding"
             android:paddingBottom="@dimen/list_item_title_vertical_padding"
             android:paddingEnd="@dimen/list_item_title_horizontal_padding"

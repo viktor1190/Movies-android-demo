@@ -4,9 +4,11 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.architecture.blueprints.movies.data.Casting
 import com.example.android.architecture.blueprints.movies.data.Movie
 import com.example.android.architecture.blueprints.movies.data.source.remote.retrofit.IMAGES_PATH_SEGMENT
 import com.example.android.architecture.blueprints.movies.di.API_BASE_URL
+import com.example.android.architecture.blueprints.movies.movieDetail.adapters.CastListAdapter
 import com.example.android.architecture.blueprints.movies.movies.adapters.MoviesListAdapter
 import okhttp3.HttpUrl
 
@@ -17,6 +19,16 @@ import okhttp3.HttpUrl
 fun setItems(listView: RecyclerView, items: PagedList<Movie>?) {
     items?.let {
         (listView.adapter as MoviesListAdapter).submitList(it)
+    }
+}
+
+/**
+ * [BindingAdapter]s for the [Casting]s list.
+ */
+@BindingAdapter("app:actors")
+fun setActors(listView: RecyclerView, items: List<Casting>?) {
+    items?.let {
+        (listView.adapter as CastListAdapter).submitList(it)
     }
 }
 

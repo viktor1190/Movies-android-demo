@@ -5,37 +5,133 @@
     tools:context="com.example.android.architecture.blueprints.movies.movieDetail.MovieDetailFragment">
 
     <data>
+
         <import type="android.view.View" />
+
+        <import type="com.example.android.architecture.blueprints.movies.R" />
+
         <import type="com.example.android.architecture.blueprints.movies.util.MovieImageSize" />
+
         <variable
             name="viewmodel"
             type="com.example.android.architecture.blueprints.movies.movieDetail.MovieDetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/movie_detail_motion_scene">
 
         <ImageView
-            android:id="@+id/image_item_thumbnail"
-            android:layout_width="0dp"
+            android:id="@+id/movie_detail_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
             app:profileImage="@{viewmodel.movieDetail.image}"
-            app:profileSize="@{MovieImageSize.Medium}"
+            app:profileSize="@{MovieImageSize.Original}"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            style="@style/MaterialMoviesTitle"
+            android:id="@+id/movie_detail_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{viewmodel.movieDetail.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_item_thumbnail"
             tools:text="@tools:sample/full_names" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:background="@color/grayLight"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="18dp"
+                    android:paddingBottom="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overview"/>
+
+                <TextView
+                    style="@style/MaterialMoviesReviewTextView"
+                    android:id="@+id/movie_detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.movieDetail.description}"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/release_date" />
+
+                <TextView
+                    style="@style/MaterialMoviesDetailFieldBase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.movieDetail.releaseDate}"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status" />
+
+                <TextView
+                    style="@style/MaterialMoviesDetailFieldBase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.movieDetail.status}"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tagline" />
+
+                <TextView
+                    style="@style/MaterialMoviesDetailFieldBase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.movieDetail.tagLine ?? context.getString(R.string.null_field)}"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/movie_adult_content_label(viewmodel.movieDetail.adultContent)}" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cast" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:actors="@{viewmodel.castList}" />
+
+                <TextView
+                    style="@style/MaterialMoviesHeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reviews" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

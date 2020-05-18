@@ -26,5 +26,7 @@
     <dimen name="list_item_title_vertical_padding">12dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="movie_title_height">72dp</dimen>
+    <dimen name="movie_description_container_padding">48dp</dimen>
 
 </resources>

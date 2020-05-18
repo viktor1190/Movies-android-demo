@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!--Top level DayNight theme to be used in AndroidManifest.xml-->
     <style name="Theme.MyApp" parent="Base.Theme.MyApp"/>
 
@@ -8,11 +8,16 @@
         <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
         <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
         <!--selection controls.-->
-        <item name="colorPrimary">@color/lime_500</item>
-        <item name="colorPrimaryDark">@color/lime_600</item>
-        <item name="colorPrimaryVariant">@color/lime_700</item>
-        <item name="colorSecondary">@color/green_200</item>
-        <item name="colorSecondaryVariant">@color/green_500</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--colorBackground appears behind scrollable content and is used for the default window-->
         <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
         <!--and menus. colorError is used to indicate an error state for components such as-->
@@ -35,8 +40,5 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog.Alert</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MyTheme.BottomSheetDialog</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
-    </style>
-    <style name="Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/lime_600</item>
     </style>
 </resources>

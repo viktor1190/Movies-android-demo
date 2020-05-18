@@ -10,8 +10,13 @@ data class MovieResponse(
         val tagline: String?,
         val release_date: String?,
         val status: String?,
-        val reviews: List<String>?,
+        val reviews: List<ReviewResponse>?,
         val cast: List<CastResponse>?
+)
+
+data class ReviewResponse (
+        val author: String,
+        val value: String
 )
 
 data class CastResponse (
