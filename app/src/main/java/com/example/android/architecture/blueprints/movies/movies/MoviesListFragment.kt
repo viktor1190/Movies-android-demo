@@ -91,14 +91,17 @@ class MoviesListFragment : DaggerFragment() {
         searchView.suggestionsAdapter = cursorAdapter
         searchView.setOnQueryTextListener(onSearchQueryListener(searchView, cursorAdapter))
         searchView.setOnSuggestionListener(onSearchSuggestionListener(searchView))
-        searchView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
+        /*searchView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
 
             override fun onViewDetachedFromWindow(v: View?) {
                 viewModel.filterByName(null)
             }
             override fun onViewAttachedToWindow(v: View?) {}
-        })
-
+        })*/
+        searchView.setOnCloseListener {
+            viewModel.filterByName(null)
+            false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -158,7 +161,11 @@ class MoviesListFragment : DaggerFragment() {
 
     private fun setupErrorsHandler() {
         viewModel.errorsMessages.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_LONG).show()
+            val snack = Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_LONG)
+            snack.setAction(R.string.refresh_movie_content) {
+                viewModel.refresh()
+            }
+            snack.show()
         })
     }
 
@@ -195,7 +202,7 @@ class MoviesListFragment : DaggerFragment() {
                 val cursor = MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1))
                 query?.let {
                     var index = suggestionsMap.size - 1
-                    suggestionsMap.forEach { movieId, movieTitle ->
+                    suggestionsMap.forEach { (_, movieTitle) ->
                         if (movieTitle.contains(query, true)) {
                             cursor.addRow(arrayOf(index, movieTitle))
                             index++

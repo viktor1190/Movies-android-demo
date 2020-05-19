@@ -32,5 +32,6 @@
     <string name="cast">Cast</string>
     <string name="reviews">Reviews</string>
     <string name="status">Status</string>
+    <string name="refresh_movie_content">Refresh</string>
 
 </resources>

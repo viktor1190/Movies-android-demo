@@ -19,13 +19,16 @@ class MovieDetailViewModel @Inject constructor(private val moviesRepository: Mov
     private val _movieDetail = MutableLiveData<Movie>()
     val movieDetail: LiveData<Movie> = _movieDetail
 
+    private val _errors = MutableLiveData<String>()
+    val errorMessageHandler: LiveData<String> = _errors
+
     private val _castList = MutableLiveData<List<Casting>>()
     val castList: LiveData<List<Casting>?> = _castList
 
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>?> = _reviews
 
-    fun start(movieId: Int) {
+    fun load(movieId: Int) {
         // TODO victor.valencia show data loading progress
         viewModelScope.launch {
             val movieResult = moviesRepository.getMovie(movieId)
@@ -35,7 +38,7 @@ class MovieDetailViewModel @Inject constructor(private val moviesRepository: Mov
                 _reviews.value = movieResult.data.reviews
             } else if (movieResult is Result.Error) {
                 Timber.e(movieResult.exception, movieResult.message)
-                // TODO victor.valencia pending to show an error to the user
+                _errors.value = movieResult.message ?: movieResult.exception.message
             }
         }
     }

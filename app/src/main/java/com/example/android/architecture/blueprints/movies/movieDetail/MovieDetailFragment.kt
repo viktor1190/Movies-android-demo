@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.architecture.blueprints.movies.R
 import com.example.android.architecture.blueprints.movies.databinding.FragmentMovieDetailBinding
 import com.example.android.architecture.blueprints.movies.movieDetail.adapters.CastListAdapter
 import com.example.android.architecture.blueprints.movies.movieDetail.adapters.ReviewsListAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -37,9 +40,10 @@ class MovieDetailFragment : DaggerFragment() {
         // Set the lifecycle owner to the lifecycle of the view
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
-        viewModel.start(args.movieId)
+        viewModel.load(args.movieId)
         setupCastListAdapter()
         setupReviewsListAdapter()
+        setupErrorMessagesHandler()
     }
 
     private fun setupCastListAdapter() {
@@ -53,4 +57,17 @@ class MovieDetailFragment : DaggerFragment() {
         viewDataBinding.recyclerviewReviews.adapter = ReviewsListAdapter()
     }
 
+    private fun setupErrorMessagesHandler() {
+        viewModel.errorMessageHandler.observe(viewLifecycleOwner, Observer {
+            showErrorOnLoadingMovie(it)
+        })
+    }
+
+    private fun showErrorOnLoadingMovie(message: String) {
+        val snack = Snackbar.make(viewDataBinding.root, getString(R.string.error_loading_content, message), Snackbar.LENGTH_INDEFINITE)
+        snack.setAction(R.string.refresh_movie_content) {
+            viewModel.load(args.movieId)
+        }
+        snack.show()
+    }
 }
