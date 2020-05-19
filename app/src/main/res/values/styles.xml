@@ -17,7 +17,7 @@
 
     <!--Components-->
     <style name="ThemeOverlay.GlobalEditTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:background">@drawable/rounded_button_shape_enable</item>
+        <item name="android:background">@drawable/rounded_input_shape</item>
         <item name="android:padding">8dp</item>
     </style>
 

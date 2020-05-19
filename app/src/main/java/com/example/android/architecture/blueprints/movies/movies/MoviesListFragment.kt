@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
@@ -66,6 +67,11 @@ class MoviesListFragment : DaggerFragment() {
         setupNavigation()
         setupHintsSearchAdapter()
         setupErrorsHandler()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -131,7 +137,7 @@ class MoviesListFragment : DaggerFragment() {
         if (viewModel != null) {
             listAdapter = MoviesListAdapter(viewModel)
             val moviesList = viewDataBinding.moviesList
-            val gridLayoutManager = GridAutoFitLayoutManager(requireActivity(), 148)
+            val gridLayoutManager = GridAutoFitLayoutManager(requireActivity(), 200)
             moviesList.adapter = listAdapter
             moviesList.layoutManager = gridLayoutManager
         } else {
