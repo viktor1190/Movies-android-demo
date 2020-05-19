@@ -13,7 +13,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
@@ -124,7 +123,6 @@ class MoviesListFragment : DaggerFragment() {
         lifecycleScope.launch {
             val action = MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(movieId)
             findNavController().navigate(action)
-            Toast.makeText(requireContext(), "You have selected movie with ID: $movieId", Toast.LENGTH_SHORT).show()
         }
     }
 

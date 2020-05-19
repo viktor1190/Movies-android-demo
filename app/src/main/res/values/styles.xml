@@ -56,7 +56,7 @@
         <item name="android:paddingStart">@dimen/movie_description_container_padding</item>
         <item name="android:paddingEnd">@dimen/movie_description_container_padding</item>
         <item name="android:paddingBottom">@dimen/movie_description_container_padding</item>
-        <item name="android:background">@color/grayLight</item>
+        <item name="android:background">@color/white</item>
     </style>
     <style name="MaterialMoviesTitle" parent="android:TextAppearance.Material.Display1">
         <item name="android:background">@color/black_translucid</item>
@@ -64,5 +64,13 @@
         <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
         <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+    </style>
+    <style name="MaterialMoviesReviewAuthor" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+    <style name="MaterialMoviesReviewContent" parent="MaterialMoviesDetailFieldBase">
+        <item name="android:layout_margin">8dp</item>
     </style>
 </resources>

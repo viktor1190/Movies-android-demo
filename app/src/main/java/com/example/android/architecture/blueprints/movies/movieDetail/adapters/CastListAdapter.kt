@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.architecture.blueprints.movies.data.Casting
 import com.example.android.architecture.blueprints.movies.databinding.CastItemBinding
 
-class CastListAdapter: ListAdapter<Casting, CastListAdapter.CastViewHolder>(ItemDiffCallback()) {
+class CastListAdapter: ListAdapter<Casting, CastListAdapter.CastViewHolder>(CastItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder {
         return CastViewHolder.from(parent)
@@ -42,7 +42,7 @@ class CastListAdapter: ListAdapter<Casting, CastListAdapter.CastViewHolder>(Item
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class ItemDiffCallback : DiffUtil.ItemCallback<Casting>() {
+class CastItemDiffCallback : DiffUtil.ItemCallback<Casting>() {
 
     override fun areItemsTheSame(oldItem: Casting, newItem: Casting): Boolean {
         return oldItem === newItem

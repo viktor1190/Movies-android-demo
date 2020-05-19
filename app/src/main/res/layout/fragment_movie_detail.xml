@@ -52,7 +52,7 @@
 
                 <TextView
                     style="@style/MaterialMoviesHeaderTextView"
-                    android:background="@color/grayLight"
+                    android:background="@color/white"
                     android:gravity="center_horizontal"
                     android:paddingTop="18dp"
                     android:paddingBottom="18dp"
@@ -120,16 +120,23 @@
                     android:text="@string/cast" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview_cast"
+                    android:id="@+id/recyclerview_casts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:actors="@{viewmodel.castList}" />
 
                 <TextView
-                    style="@style/MaterialMoviesHeaderTextView"
+                style="@style/MaterialMoviesHeaderTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reviews" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_reviews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/reviews" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:reviews="@{viewmodel.reviews}" />
 
             </LinearLayout>
         </ScrollView>

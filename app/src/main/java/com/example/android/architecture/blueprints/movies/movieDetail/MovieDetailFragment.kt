@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.architecture.blueprints.movies.databinding.FragmentMovieDetailBinding
 import com.example.android.architecture.blueprints.movies.movieDetail.adapters.CastListAdapter
+import com.example.android.architecture.blueprints.movies.movieDetail.adapters.ReviewsListAdapter
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -38,14 +39,18 @@ class MovieDetailFragment : DaggerFragment() {
 
         viewModel.start(args.movieId)
         setupCastListAdapter()
+        setupReviewsListAdapter()
     }
 
     private fun setupCastListAdapter() {
-        val castListAdapter = CastListAdapter()
-        val castList = viewDataBinding.recyclerviewCast
+        val castList = viewDataBinding.recyclerviewCasts
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        castList.adapter = castListAdapter
+        castList.adapter = CastListAdapter()
         castList.layoutManager = layoutManager
+    }
+
+    private fun setupReviewsListAdapter() {
+        viewDataBinding.recyclerviewReviews.adapter = ReviewsListAdapter()
     }
 
 }

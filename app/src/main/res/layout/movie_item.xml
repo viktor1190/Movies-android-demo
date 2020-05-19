@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="android.widget.CompoundButton" />
         <import type="com.example.android.architecture.blueprints.movies.util.MovieImageSize" />
 
         <variable

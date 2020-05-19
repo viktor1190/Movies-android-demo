@@ -14,8 +14,8 @@ data class Movie(
 )
 
 data class Review (
-        val author: String,
-        val value: String
+        val author: String?,
+        val value: String?
 )
 
 data class Casting (
