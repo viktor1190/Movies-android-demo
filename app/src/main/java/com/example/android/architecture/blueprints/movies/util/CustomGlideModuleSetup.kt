@@ -21,7 +21,7 @@ class CustomGlideModuleSetup: AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         val options = RequestOptions()
-                .placeholder(R.drawable.movie_placeholder) // for loading or error state
+                .placeholder(R.drawable.ic_filmstrip) // for loading or error state
                 .centerCrop()
         builder.setDefaultRequestOptions(options)
         super.applyOptions(context, builder)
