@@ -33,5 +33,6 @@
     <string name="reviews">Reviews</string>
     <string name="status">Status</string>
     <string name="refresh_movie_content">Refresh</string>
+    <string name="login_hero_text">LET\'S THE SHOW BEGIN!</string>
 
 </resources>

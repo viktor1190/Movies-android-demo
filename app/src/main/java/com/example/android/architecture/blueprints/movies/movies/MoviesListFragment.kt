@@ -220,7 +220,7 @@ class MoviesListFragment : DaggerFragment() {
 
 class CustomSearchView(context: Context): SearchView(context) {
 
-    private var searchSrcTextView: SearchView.SearchAutoComplete? = null
+    private var searchSrcTextView: SearchAutoComplete? = null
     private var listener: OnQueryTextListener? = null
 
     override fun setOnQueryTextListener(listener: OnQueryTextListener?) {
@@ -238,11 +238,11 @@ class CustomSearchView(context: Context): SearchView(context) {
         closeButton.setOnClickListener {
             closeCallback()
             //Clear query
-            setQuery("", true);
+            setQuery("", true)
             //Collapse the action view
-            onActionViewCollapsed();
+            onActionViewCollapsed()
             //Collapse the search widget
-            menuItem.collapseActionView();
+            menuItem.collapseActionView()
         }
     }
 }

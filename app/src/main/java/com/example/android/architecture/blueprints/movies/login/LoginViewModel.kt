@@ -1,4 +1,4 @@
-package com.example.android.architecture.blueprints.movies.login.ui.login
+package com.example.android.architecture.blueprints.movies.login
 
 import android.text.Editable
 import android.util.Patterns

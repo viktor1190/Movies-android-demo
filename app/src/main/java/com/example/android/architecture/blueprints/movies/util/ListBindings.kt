@@ -44,7 +44,7 @@ fun setReviews(listView: RecyclerView, items: List<Review>?) {
     }
 }
 
-@BindingAdapter(*["app:profileImage", "app:profileSize"])
+@BindingAdapter("app:profileImage", "app:profileSize")
 fun loadImage(view: ImageView, profileImage: String?, profileSize: MovieImageSize) {
     GlideApp.with(view.context)
             .load(MovieImageBuilder.getImageUrl(profileImage, profileSize))

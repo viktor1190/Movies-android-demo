@@ -29,7 +29,6 @@ class MovieDetailViewModel @Inject constructor(private val moviesRepository: Mov
     val reviews: LiveData<List<Review>?> = _reviews
 
     fun load(movieId: Int) {
-        // TODO victor.valencia show data loading progress
         viewModelScope.launch {
             val movieResult = moviesRepository.getMovie(movieId)
             if (movieResult is Result.Success && movieResult.succeeded) {

@@ -14,7 +14,6 @@ import com.example.android.architecture.blueprints.movies.data.Result
 import com.example.android.architecture.blueprints.movies.data.isLoading
 import com.example.android.architecture.blueprints.movies.data.succeeded
 import com.example.android.architecture.blueprints.movies.databinding.FragmentLoginBinding
-import com.example.android.architecture.blueprints.movies.login.ui.login.LoginViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
