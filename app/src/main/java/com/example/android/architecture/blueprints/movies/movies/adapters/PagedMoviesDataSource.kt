@@ -52,7 +52,8 @@ class PagedMoviesDataSource constructor(
     private fun managedMoviesRequest(page: Int, callback: (List<Movie>) -> Unit) {
         coroutineScope.launch {
             requestStatusObserver.value = Result.Loading
-            val moviesResult = withContext(ioDispatcher) { moviesRepository.getMovies(page, sortType.value, filterValue.value) }
+            val filterValue = if (filterValue.value.isNullOrBlank()) null else filterValue.value
+            val moviesResult = withContext(ioDispatcher) { moviesRepository.getMovies(page, sortType.value, filterValue) }
             if (moviesResult.succeeded) {
                 val movies = (moviesResult as Result.Success).data
                 requestStatusObserver.value = Result.Success(movies)

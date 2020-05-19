@@ -1,6 +1,7 @@
 package com.example.android.architecture.blueprints.movies.movies
 
 import android.app.SearchManager
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.database.Cursor
 import android.database.MatrixCursor
@@ -13,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.CursorAdapter
@@ -78,30 +80,30 @@ class MoviesListFragment : DaggerFragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.movies_menu, menu)
-        val searchView: SearchView = menu.findItem(R.id.menu_search).actionView as SearchView
-        setupSearchViewMenu(searchView)
+        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
+        setupSearchViewMenu(menuItem)
     }
 
-    private fun setupSearchViewMenu(searchView: SearchView) {
+    private fun setupSearchViewMenu(menuItem: MenuItem) {
+        val searchView = menuItem.actionView as CustomSearchView
         searchView.queryHint = this.getString(R.string.search)
 
         val from = arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1)
         val to = intArrayOf(R.id.text_suggestion_label)
         val cursorAdapter = SimpleCursorAdapter(context, R.layout.hint_row, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER)
         searchView.suggestionsAdapter = cursorAdapter
-        searchView.setOnQueryTextListener(onSearchQueryListener(searchView, cursorAdapter))
+        searchView.setOnQueryTextListener(onSearchQueryListener(menuItem, cursorAdapter))
         searchView.setOnSuggestionListener(onSearchSuggestionListener(searchView))
-        /*searchView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
-
-            override fun onViewDetachedFromWindow(v: View?) {
-                viewModel.filterByName(null)
-            }
-            override fun onViewAttachedToWindow(v: View?) {}
-        })*/
-        searchView.setOnCloseListener {
+        searchView.setupMenuItemCloseBehavior(menuItem) {
             viewModel.filterByName(null)
-            false
         }
+        viewModel.filterValue.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                menuItem.expandActionView()
+                searchView.setQuery(it, false)
+                searchView.clearFocus()
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -160,8 +162,8 @@ class MoviesListFragment : DaggerFragment() {
     }
 
     private fun setupErrorsHandler() {
-        viewModel.errorsMessages.observe(viewLifecycleOwner, Observer {
-            val snack = Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_LONG)
+        viewModel.errorsMessages.observe(viewLifecycleOwner, EventObserver {
+            val snack = Snackbar.make(requireView(), getString(R.string.error_loading_content, it), Snackbar.LENGTH_INDEFINITE)
             snack.setAction(R.string.refresh_movie_content) {
                 viewModel.refresh()
             }
@@ -190,10 +192,10 @@ class MoviesListFragment : DaggerFragment() {
         }
     }
 
-    private fun onSearchQueryListener(searchView: SearchView, cursorAdapter: SimpleCursorAdapter): SearchView.OnQueryTextListener {
+    private fun onSearchQueryListener(menuItem: MenuItem, cursorAdapter: SimpleCursorAdapter): SearchView.OnQueryTextListener {
         return object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                hideKeyboard(searchView)
+                hideKeyboard(menuItem.actionView)
                 viewModel.filterByName(query)
                 return true
             }
@@ -212,6 +214,35 @@ class MoviesListFragment : DaggerFragment() {
                 cursorAdapter.changeCursor(cursor)
                 return false
             }
+        }
+    }
+}
+
+class CustomSearchView(context: Context): SearchView(context) {
+
+    private var searchSrcTextView: SearchView.SearchAutoComplete? = null
+    private var listener: OnQueryTextListener? = null
+
+    override fun setOnQueryTextListener(listener: OnQueryTextListener?) {
+        super.setOnQueryTextListener(listener)
+        this.listener = listener
+        searchSrcTextView = findViewById(androidx.appcompat.R.id.search_src_text)
+        searchSrcTextView?.setOnEditorActionListener { _, _, _ ->
+            listener?.onQueryTextSubmit(query.toString()) ?: true
+        }
+    }
+
+    fun setupMenuItemCloseBehavior(menuItem: MenuItem, closeCallback: () -> Unit) {
+        // Get the search close button image view
+        val closeButton: ImageView = findViewById(R.id.search_close_btn)
+        closeButton.setOnClickListener {
+            closeCallback()
+            //Clear query
+            setQuery("", true);
+            //Collapse the action view
+            onActionViewCollapsed();
+            //Collapse the search widget
+            menuItem.collapseActionView();
         }
     }
 }

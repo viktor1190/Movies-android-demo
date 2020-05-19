@@ -41,15 +41,16 @@ class MoviesListViewModel @Inject constructor(moviesRepository: MoviesRepository
     }
 
     // Initially we don't want to filter any movie, so we send null as default value
-    private val filterValue: MutableLiveData<String?> = MutableLiveData(null)
+    private val _filterValue: MutableLiveData<String?> = MutableLiveData(null)
+    val filterValue: LiveData<String?> = _filterValue
 
     /**
      * This private LiveData object is used to observe the request status and emmit the errors and the loading indicators.
      */
     private val _moviesResultStatusObserver = MutableLiveData<Result<List<Movie>>>()
     val dataLoading: LiveData<Boolean> = Transformations.map(_moviesResultStatusObserver) { it == Result.Loading }
-    private val _errorsMessages: MutableLiveData<String> = MutableLiveData()
-    val errorsMessages: LiveData<String> = _errorsMessages
+    private val _errorsMessages: MutableLiveData<Event<String>> = MutableLiveData()
+    val errorsMessages: LiveData<Event<String>> = _errorsMessages
 
     private val _emptyList: MediatorLiveData<Boolean> = MediatorLiveData()
     val emptyList: LiveData<Boolean> = _emptyList
@@ -66,7 +67,7 @@ class MoviesListViewModel @Inject constructor(moviesRepository: MoviesRepository
                 viewModelScope,
                 _moviesResultStatusObserver,
                 _sortType,
-                filterValue)
+                _filterValue)
         _liveDataSource = dataSourceFactory.getMovieLiveDataSource()
         val pagedListConfig = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -81,7 +82,7 @@ class MoviesListViewModel @Inject constructor(moviesRepository: MoviesRepository
                 val mapOfMoviesTitles = movies.map { it.id to it.title }.toMap()
                 _searchSuggestions.value = mapOfMoviesTitles
             } else if (it is Result.Error) {
-                _errorsMessages.value = it.message ?: it.exception.message
+                _errorsMessages.value = Event(it.message ?: it.exception.message ?: it.exception.toString())
             }
         }
         activateEmptyListPlaceholder()
@@ -100,7 +101,7 @@ class MoviesListViewModel @Inject constructor(moviesRepository: MoviesRepository
     }
 
     fun filterByName(filterValue: String?) {
-        this.filterValue.value = filterValue
+        this._filterValue.value = filterValue
         refresh()
     }
 

@@ -48,7 +48,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -137,6 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="80dp"
                     app:reviews="@{viewmodel.reviews}" />
 
             </LinearLayout>
