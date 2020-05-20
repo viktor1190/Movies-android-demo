@@ -104,7 +104,7 @@ dependencies {
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testImplementation "org.assertj:assertj-core:$assertjVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
@@ -112,7 +112,6 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     testImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     testImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    testImplementation "com.google.truth:truth:$truthVersion"
 
     // Dependencies for Android unit tests
     androidTestImplementation "junit:junit:$junitVersion"

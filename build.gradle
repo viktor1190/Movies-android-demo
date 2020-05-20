@@ -64,4 +64,5 @@ ext {
     stethoVersion = '1.5.1'
     glideVersion = '4.11.0'
     pagingVersion = '2.1.2'
+    assertjVersion = '3.6.2'
 }
